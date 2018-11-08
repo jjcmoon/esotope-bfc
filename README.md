@@ -1,8 +1,6 @@
-  __ __ _ ___ _  _  __    _  _  _ ___    __    _      __ _     _ ___    __ _ 
- |_ (_ / \ | / \|_)|_    |_)|_)|_| | |\||_ | |/ |/   /  / \|V||_) | |  |_ |_)
- |____)\_/ | \_/|  |__   |_)| \| |_|_| ||  |_|\_|\   \__\_/| ||  _|_|__|__| \
+# ESOTOPE BRAINFUCK COMPILER
 
-                  by Kang Seonghoon <esotope+bfc@mearie.org>
+By Kang Seonghoon <esotope+bfc@mearie.org>
 
 
 This is the Esotope Brainfuck Compiler: the world's most optimizing Brainfuck-
