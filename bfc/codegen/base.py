@@ -16,7 +16,7 @@ class BaseGenerator(object):
                 pass
 
     def __del__(self):
-        self.flush()
+        pass
 
     def __getattr__(self, name):
         return getattr(self.compiler, name)

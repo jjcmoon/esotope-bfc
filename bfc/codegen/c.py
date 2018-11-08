@@ -40,10 +40,10 @@ class Generator(BaseGenerator):
 
     def flush(self):
         sys.stdout.write(self.declbuf.getvalue())
-        self.declbuf = None
+        del self.declbuf
 
         sys.stdout.write(self.buf.getvalue())
-        self.buf = None
+        del self.buf
 
     ############################################################
 
