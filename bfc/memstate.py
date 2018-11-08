@@ -3,7 +3,7 @@
 from bfc.expr import *
 from bfc.nodes import *
 
-class _IntegerSet(object):
+class _IntegerSet:
     """An internal class for mapping arbitrary integer to object (or None).
     It also accepts finite & infinite slice (i.e. range) as a key."""
 
@@ -26,7 +26,7 @@ class _IntegerSet(object):
         except:
             raise # XXX
 
-class MemoryState(object):
+class MemoryState:
     """Describes the knowledge about current memory.
 
     XXX current docstring doesn't reflect current implementation. Ignore it.

@@ -14,7 +14,6 @@ class gentype(type):
             obj = type.__call__(self, *args, **kwargs)
         return obj
 
-class genobject(object):
-    __metaclass__ = gentype
+class genobject(object, metaclass=gentype):
     __gen__ = type.__call__
 

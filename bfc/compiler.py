@@ -39,9 +39,11 @@ class Compiler(object):
         self.codegen = codegen
         self.debugging = debugging
 
+
     def parse(self, fp):
         parser = self.parser(self)
         return parser.parse(fp)
+
 
     def optimize(self, node):
         """compiler.optimize(node) -> node
@@ -58,6 +60,7 @@ class Compiler(object):
             node = passobj.transform(node)
         return node
 
+
     def generate(self, node):
         """compiler.generate(node) -> Generator
 
@@ -69,6 +72,7 @@ class Compiler(object):
         gen.generate(node)
         gen.flush()
         return gen
+
 
     def compile(self, fp):
         """compiler.compile(filelike) -> Generator

@@ -2,7 +2,7 @@
 
 from bfc.nodes import ComplexNode
 
-class Transformer(object):
+class Transformer:
     def __init__(self, target):
         assert isinstance(target, list)
         self.target = target
@@ -12,7 +12,7 @@ class Transformer(object):
     def __iter__(self):
         return self
 
-    def next(self):
+    def __next__(self):
         if self.cursormax >= len(self.target):
             raise StopIteration
         self.cursormin = self.cursormax
@@ -35,7 +35,7 @@ class Transformer(object):
     def truncate(self):
         del self.target[self.cursormax:]
 
-class BaseOptimizerPass(object):
+class BaseOptimizerPass:
     def __init__(self, compiler):
         self.compiler = compiler
 

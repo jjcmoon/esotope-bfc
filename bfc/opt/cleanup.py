@@ -24,7 +24,7 @@ def cleanup(node):
         if not cur: # remove no-op
             tr.replace()
             continue
-
+        
         cur.movepointer(offsets)
         ioffsets = cur.offsets()
         if ioffsets is not None:

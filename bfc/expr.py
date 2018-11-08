@@ -1,5 +1,6 @@
 # This is a part of Esotope Brainfuck Compiler.
 
+from functools import reduce
 import operator as _operator
 from bfc.utils import *
 
@@ -14,14 +15,13 @@ class _ExprMeta(gentype):
 
         return ReferenceExpr(offset)
 
-class Expr(genobject):
+class Expr(genobject, metaclass = _ExprMeta):
     """Expression class with canonicalization.
 
     Expression is extensively used in the Brainfuck IL, as it is a lot readable
     in the output than a set of operations, and easier to implement certain
     operations. Expression is immutable, and always canonicalized."""
 
-    __metaclass__ = _ExprMeta
 
     def __gen__(cls, obj=0):
         if isinstance(obj, Expr): return obj
@@ -186,7 +186,7 @@ class LinearExpr(_ExprNode, tuple):
                     const += coeff * term[0]
                     for icoeff, iterm in term[1:]:
                         termsmap[iterm] = termsmap.get(iterm, 0) + coeff * icoeff
-                elif isinstance(term, (int, long)):
+                elif isinstance(term, int):
                     const += coeff * term
                 else:
                     termsmap[term] = termsmap.get(term, 0) + coeff

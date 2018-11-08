@@ -1,7 +1,7 @@
 # This is a part of Esotope Brainfuck Compiler.
 
 import sys
-import cStringIO as stringio
+from io import StringIO
 
 from bfc.nodes import *
 from bfc.expr import *
@@ -12,8 +12,8 @@ from bfc.codegen.base import BaseGenerator
 class Generator(BaseGenerator):
     def __init__(self, compiler):
         BaseGenerator.__init__(self, compiler)
-        self.declbuf = stringio.StringIO()
-        self.buf = stringio.StringIO()
+        self.declbuf = StringIO()
+        self.buf = StringIO()
         self.nextvars = {} 
 
     def newvariable(self, prefix):
@@ -40,12 +40,10 @@ class Generator(BaseGenerator):
 
     def flush(self):
         sys.stdout.write(self.declbuf.getvalue())
-        self.declbuf.reset()
-        self.declbuf.truncate()
+        self.declbuf = None
 
         sys.stdout.write(self.buf.getvalue())
-        self.buf.reset()
-        self.buf.truncate()
+        self.buf = None
 
     ############################################################
 
@@ -157,7 +155,7 @@ class Generator(BaseGenerator):
     ############################################################
 
     def _formatadjust(self, ref, value):
-        if isinstance(value, (int, long)) or value.simple():
+        if isinstance(value, int) or value.simple():
             value = int(value)
             if value == 0:
                 return ''
@@ -173,7 +171,7 @@ class Generator(BaseGenerator):
         else:
             return posform
 
-    _reprmap = [('\\%03o', '%c')[32 <= i < 127] % i for i in xrange(256)]
+    _reprmap = [('\\%03o', '%c')[32 <= i < 127] % i for i in range(256)]
     _reprmap[0] = '\\0'; _reprmap[9] = '\\t'; _reprmap[10] = '\\n'; _reprmap[13] = '\\r'
     _reprmap[34] = '\\"'; _reprmap[39] = '\''; _reprmap[92] = '\\\\'
     def _addslashes(self, s, _reprmap=_reprmap):

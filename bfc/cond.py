@@ -213,7 +213,7 @@ class Range(Condition):
             break # no more reduction possible
 
         if not ranges: return Never()
-        ranges.sort(key=lambda (min,max): (min is not None, min, max is None, max))
+        ranges.sort(key=lambda min,max: (min is not None, min, max is None, max))
 
         result = []
         lastmin, lastmax = ranges[0]

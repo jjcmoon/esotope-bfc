@@ -18,7 +18,8 @@ def _setmovepointer(cells, offset):
     if None in cells: result.append(None)
     return set(result)
 
-class cellset(object):
+
+class cellset:
     __slots__ = ('sure', 'unsure')
 
     def __init__(self, sure=None, unsure=None, others=None):
@@ -61,7 +62,7 @@ class cellset(object):
         return cellset(sure=_setmovepointer(self.sure, offsets),
                        unsure=_setmovepointer(self.unsure, offsets))
 
-    def __nonzero__(self):
+    def __bool__(self):
         return bool(self.sure) and bool(self.unsure)
 
     def __eq__(lhs, rhs):
@@ -108,12 +109,12 @@ class cellset(object):
         return 'cellset(%s, %s)' % (self._repr_set(self.sure),
                                     self._repr_set(self.unsure - self.sure))
 
-
+
 class Node(object):
     """Base class of the Brainfuck IL."""
 
-    def __nonzero__(self):
-        """node.__nonzero__() -> bool
+    def __bool__(self):
+        """node.__bool__() -> bool
 
         Should return False if it is a unconditionally no-op."""
 
@@ -271,7 +272,7 @@ class Nop(Node):
     by cleanup pass.
     """
 
-    def __nonzero__(self):
+    def __bool__(self):
         return False
 
     def compactrepr(self):
@@ -286,7 +287,7 @@ class UseVariable(ComplexNode):
         ComplexNode.__init__(self, children)
         self.vars = vars
 
-    def __nonzero__(self):
+    def __bool__(self):
         return len(self) > 0
 
     @property
@@ -323,7 +324,7 @@ class SetMemory(Node):
             assert delta is None
             self.value = Expr(value)
 
-    def __nonzero__(self):
+    def __bool__(self):
         return self.value != Expr[self.offset]
 
     @property
@@ -389,7 +390,7 @@ class MovePointer(Node):
     def __init__(self, offset):
         self.offset = offset
 
-    def __nonzero__(self):
+    def __bool__(self):
         return self.offset != 0
 
     @property
@@ -480,7 +481,7 @@ class OutputConst(Node):
         else:
             self.str = ''.join(chr(i & 0xff) for i in s)
 
-    def __nonzero__(self):
+    def __bool__(self):
         return len(self.str) > 0
 
     @property
@@ -551,7 +552,7 @@ class If(ComplexNode):
         else:
             self.cond = cond
 
-    def __nonzero__(self):
+    def __bool__(self):
         return bool(self.cond) and len(self) > 0
 
     @property
@@ -604,7 +605,7 @@ class Repeat(ComplexNode):
         ComplexNode.__init__(self, children)
         self.count = Expr(count)
 
-    def __nonzero__(self):
+    def __bool__(self):
         return bool(self.count) and len(self) > 0
 
     @property
@@ -670,7 +671,7 @@ class While(ComplexNode):
         ComplexNode.__init__(self, children)
         self.cond = cond
 
-    def __nonzero__(self):
+    def __bool__(self):
         # infinite loop should return True, even if there are no children.
         return bool(self.cond)
 

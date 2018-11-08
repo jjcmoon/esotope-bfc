@@ -1,0 +1,59 @@
+Esotope is a hyper-optimizing BF transpiler.
+(Because of the structer inducing nature, 
+esotope resembles more a decompiler than a compiler)
+Currently only has a c backend.
+written by Kang Seonghoon in 2009.
+
+Structure
+
+|
+-- esotope-bfc.py
+|	Main file, parses cmd-line arguments and calls compiler
+|	
+-- bfc
+	|
+	-- parser
+	|	|
+	|	-- base.py
+	|	|	parser superclass, not doing much
+	|	-- brainfuck.py
+	|	|	bf parser (converts to IL tree)
+	|	-- bfrle.py
+	|		bfrle parser (extends bf with repeated +/-/>/<)
+	|
+	-- opt
+	|	|
+	|	-- base.py
+	|	|	basic tree traversal utilities
+	|	-- cleanup.py
+	|	-- flatten.py
+	|	|	works away any +->< inefficiencies
+	|	-- simpleloop.py
+	|	|	simple loop opts (resets, balanced)
+	|	-- moreloop.py
+	|	|	more complex loopt opts (nested ifs)
+	|	-- initialmemory.py
+	|	-- removedead.py
+	|	|	dead code removal
+	|	-- propagate.py
+	|	|	propagation of memory references, constants
+	|	-- stdlib.py
+	|		output opts
+	|
+	-- codegen
+	|	|
+	|	-- base.py
+	|	-- c.py
+	|		walks the IL tree, generating c code
+	|
+	-- nodes.py
+	-- expr.py
+	-- cond.py
+	|	implement BF IL
+	|
+	-- memstate.py
+	|	describes knowledge about memory
+	|
+	|
+	-- compiler.py
+		Pipelines parser->optimizers->codegen
